@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Gigarama</title>
+  <link rel="stylesheet" href="./css/main.css" />
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <nav class="main-nav">
+      <ul class="main-nav-ul">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gigs.html">Gigs demo</a></li>
+        <li><a href="qr.html">QR demo</a></li>
+      </ul>
+    </nav>
+
+    <h1 class="page-title text-center">Upcoming Shows!</h1>
+    <h1 class="loading-indicator text-center" id="loading-indicator">
+      Loading Data
+    </h1>
+    <div class="card-container" id="card-container"></div>
+  </div>
+  <footer>Developed by Peter Stema utilizing
+    <a href="https://developers.google.com/calendar/overview">Google calendar api</a>
+  </footer>
+
+  <script>
+    //check if the page is loaded then call api() to fetch data
+    document.addEventListener('DOMContentLoaded', api);
+    loadingIndicator = document.getElementById('loading-indicator');
+    const cardContainer = document.getElementById('card-container');
+    const url =
+      'https://script.google.com/macros/s/AKfycbyGWN-0wfegjh04Y4NIdkNg98KTPOmc8syR2i50tDjpVHlWpijk/exec';
+
+    const googleMapAddress = 'https://www.google.com/maps/place/';
+
+    function timeConvert(time) {
+      // Check correct time format and split into components
+      time = time
+        .toString()
+        .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+      if (time.length > 1) {
+        // If time format correct
+        time = time.slice(1); // Remove full string match value
+        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
+      }
+      return time.join(''); // return adjusted time or original string
+    }
+
+    function cardRender(data) {
+      data.map(item => {
+        let urlEncodedLocation = encodeURIComponent(item.location);
+        //let urlEncodedLocation = encodeURI(item.location)
+        //console.log('test', urlEncodedLocation);
+        // console.log('Start ', timeConvert(item.start));
+
+        renderDom(`
+            <div class="card">
+              <h2 class="card-title">${item.title}</h2>
+                <p class="card-event-text">${item.date}</p>
+                <p class="card-event-text card-time"><span class="card-start">${timeConvert(
+          item.start
+        )} - </span>${timeConvert(item.end)}</p>
+                <p class="card-event-text">${item.desc}</p>
+                <p class="card-event-text">${item.location}</p>
+                <button class='card-map-btn'>
+                <a href=${googleMapAddress}${urlEncodedLocation} class="card-link" target="_blank">Show me a Map</a>
+                </button>
+            </div>
+          `);
+        //console.log('Item start ', typeof typeof item.start);
+      });
+    }
+
+    function api() {
+      fetch(url)
+        .then(result => result.json())
+        .then(data => {
+          console.log('data', data);
+          // console.log(data.data[0].title);
+          // outputData(data.data);
+          // call render
+          cardRender(data.data);
+          loadingIndicator.classList.add('hidden');
+        })
+        .catch(error => {
+          //console.log('Error fetching data', error);
+          loadingIndicator.classList.add('hidden');
+          renderDom(
+            `<h1 class="error-text">Sorry there was a problem getting the show data, please try again later`
+          );
+        });
+    }
+
+    const renderDom = updateData => {
+      // console.log('updateData', updateData);
+      cardContainer.insertAdjacentHTML('beforeend', updateData);
+    };
+  </script>
+</body>
+
+</html>

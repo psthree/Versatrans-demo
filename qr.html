@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>QR code Generator demo</title>
+  <link rel="stylesheet" href="./css/main.css" />
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <nav class="main-nav">
+      <ul class="main-nav-ul">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gigs.html">Gigs demo</a></li>
+        <li><a href="qr.html">QR demo</a></li>
+      </ul>
+    </nav>
+    <div class="content-limit qr-content">
+      <h2 class="page-title text-center mb-25">What is a QR code?</h2>
+      <p class="mb-25">A QR Code, or quick response Code, is a Code that is quickly readable by a many devices. Using a
+        combination of spacing as a type of Matrix Barcode (a 2-D Barcode), when a QR Code is
+        scanned, it conveys a wide multitude of information. For example touchlessly loading a restaurant menu on a
+        mobile device.
+      </p>
+      <h1 class="page-title text-center mb-25">QR code generator</h1>
+      <p class="mb-25">Enter a url below to generate a QR code image. You may want to run your URL though <a
+          href="https://bitly.com/" target="blank">bitly.com</a> to shorten it or to add tracking.</p>
+      <form class="qr-form">
+        <label for="">Enter URL
+          <ps-tooltip class="qr-tooltip" tooltip_background="crimson" text_color="yellow" icon_color="purple">
+            <span slot="message">For example: https://www.peterstema.com</span>
+          </ps-tooltip>
+        </label>
+        <input type="url" class="qr-input" id="qr-input" title="try entering https://www.peterstema.com"
+          pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?"
+          required aria-required=”true” placeholder="http://www.myurl.com" />
+        <input type="submit" value="submit" class="qr-button" id="qr-button" />
+        <!-- <button type="button">Submit</button> -->
+      </form>
+      <div id="QR-target"></div>
+    </div>
+  </div>
+  <footer>Developed by Peter Stema utilizing
+    <a href="https://www.qrtag.net">www.qrtag.net</a>
+    <!-- <img src="https://qrtag.net/api/qr_transparent_6.svg?url=https://www.peterstema.com/"> -->
+  </footer>
+
+  <script src="components/PS-toolTip.js" defer></script>
+  <script>
+
+    const qrTarget = document.querySelector('#QR-target');
+    const qrButton = document.querySelector('#qr-button');
+    const qrForm = document.querySelector('.qr-form');
+
+    // qrButton.addEventListener('click', () => {
+    //   qrRender()
+    // })
+
+    qrForm.addEventListener('submit', handleSubmit)
+
+    function handleSubmit(event) {
+      event.preventDefault()
+      const qrUrl = document.querySelector('#qr-input').value;
+      const qrInstructions = `<p class="qr-instructions">The SVG image above is for <a href="${qrUrl}">${qrUrl}</a>. It is black with a transparent background. 
+      It can be downloaded for later use by right clicking or control clicking on a mac and choosing a save or copy option.</p>`
+      const finalUrl = `<img src="https://qrtag.net/api/qr_transparent_6.svg?url=${qrUrl}" class="qr-image">${qrInstructions}`
+
+      qrRender(finalUrl)
+    }
+
+    // builds img 
+    function qrRender(renderUrl) {
+      // renderDom(`<img src="https://qrtag.net/api/qr_transparent_6.svg?url=https://www.peterstema.com">`)
+      console.log(renderUrl)
+      renderDom(renderUrl)
+    }
+
+    // const renderDom = updateData => {
+    const renderDom = updateData => {
+      qrTarget.insertAdjacentHTML('beforeend', updateData);
+    };
+
+  </script>
+</body>
+
+</html>
+
+<!--
+   // create dom element
+// add to page
+// add form
+// collect vars
+// build URL
+
+// check for valid URL?
+// https://stackoverflow.com/questions/58070841/pattern-in-html5-input-type-url-validation
+
+//add tooltip component
+//add vars to css -->
