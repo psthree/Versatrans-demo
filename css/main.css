@@ -17,6 +17,8 @@
 :root {
   --first-color: rgb(7, 240, 27);
   --second-color: yellow;
+  --third-color: #000000;
+  --forth-color: crimson;
 }
 
 /* background-color: var(--main-bg-color); */
@@ -166,7 +168,7 @@ body {
 .main-nav {
   width: 100%;
   margin: 0 auto 20px auto;
-  background-color: #000;
+  background-color: var(--third-color);
   padding: 10px 0 20px 0;
 }
 
@@ -204,7 +206,7 @@ footer a:hover,
 .main-nav ul li {
   /* font-family: 'impact_labelregular'; */
   padding: 9px;
-  background-color: #000;
+  background-color: var(--third-color);
   color: #fff;
   transform: rotate(1deg);
 }
@@ -214,7 +216,7 @@ footer a:hover,
 }
 
 .main-nav ul a:hover {
-  color: crimson;
+  color: var(--forth-color);
   background-color: var(--second-color);
   padding: 10px;
   transition: all 0.4s ease;
@@ -258,7 +260,7 @@ footer a:hover,
 footer {
   /* for sticky footer */
   flex-shrink: 0;
-  background-color: #000;
+  background-color: var(--third-color)
   padding: 10px;
 }
 
@@ -317,7 +319,6 @@ footer {
   /* font-family: 'impact_labelregular'; */
   font-family: 'impact_label_reversedregular';
   font-size: 36px;
-  /* background-color: #000; */
   background-color: blueviolet;
   border-bottom: 1px solid #ddd;
   color: #fff;
@@ -329,7 +330,7 @@ footer {
 .card-event-text {
   font-family: 'impact_label_reversedregular';
   font-size: 25px;
-  background-color: #000;
+  background-color: var(--third-color);
   border-bottom: 1px solid #ddd;
   padding: 5px;
   color: #fff;
@@ -355,7 +356,7 @@ footer {
   font-size: 36px;
   /* font-weight: bold; */
   color: #fff;
-  background-color: crimson;
+  background-color: var(--forth-color);
   width: 80%;
   margin: 50px auto;
   transform: rotate(1deg);
